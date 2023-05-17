@@ -145,13 +145,13 @@ void setup() {
     
     // Set access addresses (TX address in nRF24L01) to BLE advertising 0x8E89BED6
     // Remember that both bit and byte orders are reversed for BLE packet format
-    buf[0] = 0x30;
+    buf[0] = 0x30;  //注意此 buf[0] 字节本质上是 CMD byte 命令字NRF_WRITE_REG+TX_ADDR； 故总传输字节数 1byte CMD + 4bytes ADDR = 5bytes
     buf[1] = swapbits(0x8E);
     buf[2] = swapbits(0x89);
     buf[3] = swapbits(0xBE);
     buf[4] = swapbits(0xD6);
-    nrf_manybytes(buf, 5);
-    buf[0] = 0x2A;    // set RX address in nRF24L01, doesn't matter because RX is ignored in this case
+    nrf_manybytes(buf, 5); //总传输字节数 1byte CMD + 4bytes ADDR = 5bytes
+    buf[0] = 0x2A;  //注意此 buf[0] 字节本质上是 CMD byte 命令字NRF_WRITE_REG+RX_ADDR_P0；   // set RX address in nRF24L01, doesn't matter because RX is ignored in this case
     nrf_manybytes(buf, 5);
 }
 
